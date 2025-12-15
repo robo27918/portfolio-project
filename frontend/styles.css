@@ -4,3 +4,10 @@ h1{
 h2{
     text-align: center;
 }
+body{
+    background-color:gainsboro;
+}
+.container{
+    border:1px solid black;
+    margin-bottom: 10px;
+}
