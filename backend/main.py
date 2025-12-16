@@ -77,6 +77,18 @@ async def make_project(
     project =  result.first()[0]
     print(f"Inserted project {project}")
     return project
+
+@app.delete("/skills/{skill_id}")
+async def delete_skill(skill_id:int, db:AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Skill).where(Skill.id == skill_id))
+    skill = result.scalar_one_or_none()
+
+    if skill is None:
+        raise HTTPException(status_code=404, detail="Skill not found")
+    await db.delete(skill)
+    await db.commit()
+    return {"message":"Skill deleted successfully", "id":skill_id}
+
 @app.get("/skills",response_model=List[SkillResponse])
 async def get_skills(skip:int = 0, limit :int =10,
                db:AsyncSession=Depends(get_db)):
