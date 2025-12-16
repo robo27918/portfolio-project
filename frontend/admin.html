@@ -11,12 +11,19 @@
 
     <div class="container">
         <h3>Add Project</h3>
-        <form action="">
+        <form action="http://localhost:8000/projects" method="post">
             <div class="input-container">
                 <label class="column" for="">Project title</label>
-                <input class="column" type="text">
+                <input class="column" id="title" name="title" type="text">
                 <label class="column" for="">Project Description</label>
-                <textarea name="" id=""></textarea>
+                <textarea name="description" id="description"></textarea>
+                <label for="" class="column">Technologies:</label>
+                <input type="text" class="column" id="technologies" name="technologies">
+                <label for="" class="column">Project URL</label>
+                <input type="text" class="column" id="url" name="url">
+                <label for="github_url" clas="column" id="github_url" name="github_url">Github URL</label>
+                <input type="text" class="column" id="github_url">
+
             </div>
             <button type="submit">Submit</button>
         </form>

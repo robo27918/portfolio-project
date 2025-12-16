@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
@@ -29,27 +29,44 @@ async def health_check():
     return {"status":"ok"}
 
 #Pydantic models for request validation
-class ProjectCreate(BaseModel):
+class ProjectResponse(BaseModel):
+    id:int
     title:str
     description:str
     technologies:str|None
     url:str|None
     github_url:str|None
     image_url:str|None
+    
+    class Config:
+        form_attributes = True
 
-@app.post("/projects")
-async def make_project(project:ProjectCreate,
-                         db:AsyncSession= Depends(get_db)):
+@app.post("/projects",response_model=ProjectResponse)
+async def make_project( 
+    title:str=Form(...),
+    description:str = Form(...),
+    technologies:str = Form(None),
+    url:str = Form(None),
+    github_url = Form(None),
+    image_url = Form(None),
+    db:AsyncSession= Depends(get_db)):
+    
+    print("made call to post method")
     stmt = insert(Project).values(
-        title = project.title,
-        description= project.description,
-        technologies = project.technologies,
-        url = project.url,
-        github_url = project.github_url,
-        image_url = project.image_url,
+        title = title,
+        description= description,
+        technologies = technologies,
+        url = url,
+        github_url = github_url,
+        image_url = image_url,
     ).returning(Project)
 
     result = await db.execute(stmt)
     await db.commit()
-    return result.fetchone()
+
+    project =  result.first()[0]
+    print(f"Inserted project {project}")
+    return project
+
+  
     
