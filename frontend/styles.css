@@ -10,4 +10,21 @@ body{
 .container{
     border:1px solid black;
     margin-bottom: 10px;
+    padding: 25px;
+}
+.input-container{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+.column{
+    width:300px;
+}
+button{
+    margin-top: 20px;
+    width:100px;
+    height:44px;
+    border-radius: 30px;
+    text-align: center;
+    
 }
