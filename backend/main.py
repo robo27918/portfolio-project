@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from sqlalchemy import insert
+from sqlalchemy import insert,select
+from typing import List
 
 
 from data import(
@@ -19,6 +21,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
 @app.on_event("startup")
@@ -74,6 +77,12 @@ async def make_project(
     project =  result.first()[0]
     print(f"Inserted project {project}")
     return project
+@app.get("/skills",response_model=List[SkillResponse])
+async def get_skills(skip:int = 0, limit :int =10,
+               db:AsyncSession=Depends(get_db)):
+    results = await db.execute(select(Skill).offset(skip).limit(limit))
+    skills = results.scalars().all()
+    return skills
 
 @app.post("/skills",response_model=SkillResponse)
 async def make_skill(
