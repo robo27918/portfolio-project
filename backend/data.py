@@ -23,7 +23,11 @@ class Project(Base):
     url= Column(String)
     github_url = Column(String)
     image_url = Column(String)
-
+class Skill(Base):
+    __tablename__="skills"
+    id = Column(Integer,primary_key=True,index=True)
+    skill_title = Column(String, nullable=False)
+    category = Column(String,nullable=True)
 #Session dependency
 async def get_db():
     async with SessionLocal() as session:
@@ -34,3 +38,5 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 async def get_all_projects(db:AsyncSession):
     result = await db.execute(select(Project))
+async def get_all_skills(db:AsyncSession):
+    result = await db.execute(select(Skill))

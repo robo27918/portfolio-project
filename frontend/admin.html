@@ -31,10 +31,12 @@
     
     <div class="container">
         <h3>Add skill</h3>
-        <form action="">
+        <form action="http://localhost:8000/skills" method="post">
             <div class="input-container">
                 <label class="column"for="">Enter skill</label>
-                <input class="column"type="text">
+                <input class="column"type="text" id="skill_title" name="skill_title">
+                <label for="category" class="column">Category</label>
+                <input type="text" class="column" name="category" id="category">
             </div>
             <button type="submit">Submit</button>
            

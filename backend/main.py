@@ -9,6 +9,7 @@ from data import(
     get_db,
     init_db,
     Project,
+    Skill
 )
 app = FastAPI()
 
@@ -40,6 +41,12 @@ class ProjectResponse(BaseModel):
     
     class Config:
         form_attributes = True
+class SkillResponse(BaseModel):
+    id:int
+    skill_title:str
+    category:str|None
+    class Config:
+        form_attributes = True
 
 @app.post("/projects",response_model=ProjectResponse)
 async def make_project( 
@@ -68,5 +75,22 @@ async def make_project(
     print(f"Inserted project {project}")
     return project
 
-  
+@app.post("/skills",response_model=SkillResponse)
+async def make_skill(
+
+    skill_title:str=Form(...),
+    category:str = Form(...),
+    db:AsyncSession= Depends(get_db)):
+
+    print(skill_title)
+    stmt = insert(Skill).values(
+        skill_title = skill_title,
+        category = category
+    ).returning(Skill)
+    result = await db.execute(stmt)
+    await db.commit()
+
+    skill = result.first()[0]
+    print(f"Skill inserted : {skill}")
+    return skill
     
