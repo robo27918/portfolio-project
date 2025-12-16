@@ -1,4 +1,6 @@
 const API_URL ="http://localhost:8000"
+const skill_table = document.getElementById("skill-table-body")
+
 async function loadSkills(){
     console.log("call to load skills method")
     try{
@@ -9,6 +11,10 @@ async function loadSkills(){
         }
         const skills = await response.json();
         console.log(skills)
+        for(let i = 0; i < skills.length; i++){
+            loadSkill(skills[i])
+        }
+
     }
     catch(e){
         console.log("some kinda error")
@@ -30,6 +36,9 @@ async function loadProjects(){
         }
         const projects = await response.json()
         console.log(projects)
+        // for(let i = 0; i < projects.length; i++){
+            // loadSkill(projects[i])
+        // }
     }
     catch(e){
         console.log(`error: ${e.message}`)
@@ -39,3 +48,32 @@ async function loadProjects(){
     }
 }
 loadProjects()
+
+function loadSkill(response){
+    console.log(response)
+    table_row = document.createElement("tr")
+    id_data = document.createElement("td")
+    name_data = document.createElement("td")
+    category_data = document.createElement("td")
+    active_data= document.createElement("td")
+    button_data = document.createElement("td")
+    edit_button = document.createElement("button")
+    delete_button = document.createElement("button")
+    edit_button.className= "btn btn-sm btn-primary me-2"
+    delete_button.className= "btn btn-sm btn-danger me-2"
+    edit_button.textContent ="Edit"
+    delete_button.textContent = "Delete"
+    button_data.appendChild(edit_button)
+    button_data.appendChild(delete_button)
+
+    // adding response values to data
+    id_data.textContent = response.id
+    name_data.textContent = response.skill_title
+    category_data.textContent = response.category
+    active_data.textContent = "active"
+    table_row.append(id_data,name_data,category_data,
+        active_data,button_data
+    )
+    skill_table.appendChild(table_row)
+
+}
