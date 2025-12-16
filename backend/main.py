@@ -83,7 +83,12 @@ async def get_skills(skip:int = 0, limit :int =10,
     results = await db.execute(select(Skill).offset(skip).limit(limit))
     skills = results.scalars().all()
     return skills
-
+@app.get("/projects",response_model=List[ProjectResponse])
+async def get_projects(skip:int =0, limit : int =10,
+                       db:AsyncSession=Depends(get_db)):
+    results = await db.execute(select(Project).offset(skip).limit(limit))
+    projects = results.scalars().all()
+    return projects
 @app.post("/skills",response_model=SkillResponse)
 async def make_skill(
 
