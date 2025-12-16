@@ -1,6 +1,6 @@
 const API_URL ="http://localhost:8000"
 const skill_table = document.getElementById("skill-table-body")
-
+const project_table = document.getElementById("project-table-body")
 async function loadSkills(){
     console.log("call to load skills method")
     try{
@@ -36,9 +36,9 @@ async function loadProjects(){
         }
         const projects = await response.json()
         console.log(projects)
-        // for(let i = 0; i < projects.length; i++){
-            // loadSkill(projects[i])
-        // }
+        for(let i = 0; i < projects.length; i++){
+            loadProject(projects[i])
+        }
     }
     catch(e){
         console.log(`error: ${e.message}`)
@@ -75,5 +75,33 @@ function loadSkill(response){
         active_data,button_data
     )
     skill_table.appendChild(table_row)
+}
+
+function loadProject(response){
+    console.log(response)
+    table_row = document.createElement("tr")
+    id_data = document.createElement("td")
+    title_data = document.createElement("td")
+    description_data = document.createElement("td")
+    technologies_data= document.createElement("td")
+    button_data = document.createElement("td")
+    edit_button = document.createElement("button")
+    delete_button = document.createElement("button")
+    edit_button.className= "btn btn-sm btn-primary me-2"
+    delete_button.className= "btn btn-sm btn-danger me-2"
+    edit_button.textContent ="Edit"
+    delete_button.textContent = "Delete"
+    button_data.appendChild(edit_button)
+    button_data.appendChild(delete_button)
+
+    // adding response values to data
+    id_data.textContent = response.id
+    title_data.textContent = response.title
+    description_data.textContent = response.description
+    technologies_data.textContent = response.technologies
+    table_row.append(id_data,title_data,description_data,
+        technologies_data,button_data)
+    
+    project_table.appendChild(table_row)
 
 }
