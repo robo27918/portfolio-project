@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from datetime import date
 load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("NEON_DB_URL")
 print("hey there",DATABASE_URL)
 engine = create_async_engine(DATABASE_URL,echo=True)
 SessionLocal = sessionmaker(bind=engine, class_=AsyncSession,expire_on_commit=False)

@@ -52,6 +52,7 @@ loadProjects()
 function loadSkill(response){
     console.log(response)
     table_row = document.createElement("tr")
+    table_row.className="skill-row"
     id_data = document.createElement("td")
     name_data = document.createElement("td")
     category_data = document.createElement("td")
@@ -59,8 +60,8 @@ function loadSkill(response){
     button_data = document.createElement("td")
     edit_button = document.createElement("button")
     delete_button = document.createElement("button")
-    edit_button.className= "btn btn-sm btn-primary me-2"
-    delete_button.className= "btn btn-sm btn-danger me-2"
+    edit_button.className= "btn btn-sm btn-primary me-2 edit-btn"
+    delete_button.className= "btn btn-sm btn-danger me-2 delete-btn"
     edit_button.textContent ="Edit"
     delete_button.textContent = "Delete"
     button_data.appendChild(edit_button)
@@ -80,6 +81,7 @@ function loadSkill(response){
 function loadProject(response){
     console.log(response)
     table_row = document.createElement("tr")
+    table_row.id = `del-btn-${response.id}`
     id_data = document.createElement("td")
     title_data = document.createElement("td")
     description_data = document.createElement("td")
@@ -87,8 +89,8 @@ function loadProject(response){
     button_data = document.createElement("td")
     edit_button = document.createElement("button")
     delete_button = document.createElement("button")
-    edit_button.className= "btn btn-sm btn-primary me-2"
-    delete_button.className= "btn btn-sm btn-danger me-2"
+    edit_button.className= "btn btn-sm btn-primary me-2 edit-btn"
+    delete_button.className= "btn btn-sm btn-danger me-2 delete-btn"
     edit_button.textContent ="Edit"
     delete_button.textContent = "Delete"
     button_data.appendChild(edit_button)
@@ -105,3 +107,19 @@ function loadProject(response){
     project_table.appendChild(table_row)
 
 }
+
+document.addEventListener("DOMContentLoaded",function(){
+    skill_table.addEventListener('click', async function(e){
+        const tableRow = e.target.closest(".skill-row");
+        console.log(tableRow)
+        // find a way to get the skill-id from the tableRow
+        if (tableRow){
+            //find a a way to get the skill id
+            console.log(tableRow.children)
+            let targetId = tableRow.children[0].textContent
+            if(confirm(`Delete ${targetId}?`)){
+                console.log('deleted ....')
+            }
+        }
+    })
+})
