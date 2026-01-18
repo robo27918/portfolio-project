@@ -119,7 +119,25 @@ document.addEventListener("DOMContentLoaded",function(){
             let targetId = tableRow.children[0].textContent
             if(confirm(`Delete ${targetId}?`)){
                 console.log('deleted ....')
+                // hit the delete api point for deleting skill
+                deleteSkill(targetId)
             }
         }
     })
 })
+// delete method for deleting skill by id
+async function deleteSkill(skillId){
+    try{
+        const response = await fetch(`http://localhost:8000/skills/${skillId}`,
+            {method : "DELETE"
+
+            });
+        if (response.ok){
+            console.log('Deleted skill:',skillId);
+
+        }
+    }
+    catch(error){
+        console.error("Skill Delete failed", skillId);
+    }
+}
