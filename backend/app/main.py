@@ -7,7 +7,7 @@ from sqlalchemy import insert,select
 from typing import List
 
 
-from data import(
+from app.data import(
     get_db,
     init_db,
     Project,

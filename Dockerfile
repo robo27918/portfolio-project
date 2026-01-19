@@ -1,21 +1,34 @@
-#Base image with Python
+# Base Python image
 FROM python:3.13-slim
 
-#set working directory inside the container
+# Set working directory
 WORKDIR /app
 
-#copy dependency files first(for caching)
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Add Poetry to PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+# Copy dependency files first for caching
 COPY pyproject.toml poetry.lock ./
 
-#install dependencis via Poetry
-RUN pip install poetry \
-    && poetry install --no-dev --no-root
+# Configure Poetry and install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi --no-root
 
-#copy the FastAPI code
-COPY fastapi_app ./fastapi_app
+# Copy backend app
+COPY backend/app ./app
 
-#Environment variable to make logs appear imediately
-ENV PYTHONBUFFERED=1
+# Ensure logs appear immediately
+ENV PYTHONUNBUFFERED=1
 
-#Command to run your API
-CMD ["poetry", "run", "gunicorn", "-k", "uvicorn.workers.UvicornWorker", "fastapi_app.main:app", "--bind", "0.0.0.0:8000"]
+# Run FastAPI with Gunicorn + Uvicorn
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8000"]
