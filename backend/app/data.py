@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy import Column, Integer,String,Boolean,select
+from sqlalchemy import Column, Integer,String,Boolean,select,DateTime,func
 import os
 from dotenv import load_dotenv
 from datetime import date
@@ -23,14 +23,15 @@ class Project(Base):
     url= Column(String)
     github_url = Column(String)
     image_url = Column(String)
-    created_at = Column(String)
+    created_at = Column(DateTime(timezone=True),server_default=func.now())
+    
     
 class Skill(Base):
     __tablename__="skills"
     id = Column(Integer,primary_key=True,index=True)
     skill_title = Column(String, nullable=False)
     category = Column(String,nullable=True)
-    created_at = Column(String)
+    created_at = Column(DateTime(timezone=True),server_default=func.now())
     
 #Session dependency
 async def get_db():
@@ -40,6 +41,7 @@ async def get_db():
 
 async def init_db():
     async with engine.begin() as conn:
+        #drop all the tables
         await conn.run_sync(Base.metadata.create_all)
 
 async def get_all_projects(db:AsyncSession):
