@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy import insert,select,update,delete
 from typing import List
 from typing import Optional
-
+from mangum import Mangum
 
 from app.data import(
     get_db,
@@ -209,3 +209,5 @@ async def partial_skill_update(
     if not updated_skill:
         raise HTTPException(status_code=404, detail="Project not found")
     return updated_skill
+
+handler = Mangum(app)

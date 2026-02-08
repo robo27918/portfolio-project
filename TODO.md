@@ -12,11 +12,12 @@
 
 2/8/2025
 
-[]  Implement edit functionality for projects and skills
+[x]  Implement edit functionality for projects and skills
     x add edit endpoint via FastAPI
     x add event delegation logic to seperate delete and edit button
     x create a modal to enter new data upon clicking edit
 
-    [] add other columns for patch update for projects to the modal
-    [] create modal for skills
-    [] 
+    [x] add other columns for patch update for projects to the modal
+    [x] create modal for skills
+    [x] 
+[x] Load backend to AWS Fargate 
