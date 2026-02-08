@@ -3,9 +3,14 @@ const skill_table = document.getElementById("skill-table-body")
 const project_table = document.getElementById("project-table-body")
 
 // initialize bootstrap modal
-const editModalElement = document.getElementById("editModal");
-const editModal = new bootstrap.Modal(editModalElement);
-const editForm = document.getElementById("editForm");
+const editProjectModalElement = document.getElementById("editProjectModal");
+const editProjectModal = new bootstrap.Modal(editProjectModalElement);
+const editProjectForm = document.getElementById("editProjectForm");
+
+const editSkillModalElement = document.getElementById("editSkillModal");
+const editSkillModal = new bootstrap.Modal(editSkillModalElement);
+const editSkillForm = document.getElementById("editSkillForm");
+
 
 async function loadSkills(){
     console.log("call to load skills method")
@@ -135,11 +140,11 @@ document.addEventListener("DOMContentLoaded",function(){
 
         }
         else if(target.classList.contains("edit-btn")){
-            const editBtn = e.target.closest("edit-btn");
-            if(editBtn){
-                // const projectId = editBtn.dataset.id;
-                // console.log("projectId for editing is", projectId)
-                // openEditModal(projectId);
+            const skillTableRow = e.target.closest(".skill-row")
+            if (skillTableRow){
+                let targetId = skillTableRow.children[0].textContent;
+                console.log("SKILL_ID",targetId);
+                openEditSkillModal(targetId);
             }
          
         }
@@ -174,7 +179,7 @@ document.addEventListener("DOMContentLoaded",function(){
             if (tableRow){
                 const targetId = tableRow.children[0].textContent;
                 console.log("PROJECT_ID",targetId);
-                openEditModal(targetId)
+                openEditProjectModal(targetId)
             }
         }
         
@@ -215,14 +220,14 @@ async function deleteProject(projectId){
 }
 
 // open edit modal with item data
-async function openEditModal(projectId){
+async function openEditProjectModal(projectId){
     try{
         const response = await fetch(`http://localhost:8000/project/${projectId}`);
         const project =  await response.json();
         console.log("project from openEditModal", project)
         document.getElementById("editProjectId").value = project.id;
         document.getElementById("editTitle").value = project.title;
-        editModal.show()
+        editProjectModal.show()
     }
     catch(error){
         console.error("Error handling item",error);
@@ -230,9 +235,9 @@ async function openEditModal(projectId){
     }
 }
 // Handle form Submission (PATCH request)
-editForm.addEventListener("submit", async (e)=>{
+editProjectForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
-
+    console.log("clicked something in project form")
     const projectId = document.getElementById("editProjectId").value;
 
     const formData = {
@@ -249,7 +254,7 @@ editForm.addEventListener("submit", async (e)=>{
         });
 
         if (response.ok){
-            editModal.hide();
+            editProjectModal.hide();
         }
         else{
             const error = await response.json();
@@ -261,4 +266,53 @@ editForm.addEventListener("submit", async (e)=>{
     finally{
         console.log("some clean up required ???")
     }
-})
+});
+
+async function openEditSkillModal(skillId){
+    try{
+        const response = await fetch(`http://localhost:8000/skill/${skillId}`);
+        const skill =  await response.json();
+        console.log("skill from openEditModal", skill)
+        // console.log(`${skill.id} |||| ${skill.skill_title}`, )
+        document.getElementById("editSkillId").value = skill.id;
+        document.getElementById("editSkillTitle").value = skill.skill_title;
+        document.getElementById("editCategory").value = skill.category;
+        editSkillModal.show()
+    }
+    catch(error){
+        console.error("Error handling item",error);
+    }
+}
+
+editSkillForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    console.log("clicked something from skillForm")
+    const skillId = document.getElementById("editSkillId").value;
+    console.log(skillId);
+    const formData = {
+        skill_title : document.getElementById('editSkillTitle').value,
+    };
+    console.log("form-data",formData);
+    try{
+        const response = await fetch(`${API_URL}/skill/${skillId}`,{
+            method: 'PATCH',
+            headers:{
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok){
+            editSkillModal.hide();
+        }
+        else{
+            const error = await response.json();
+            console.log("Error",error);
+        }
+    }catch(error){
+        console.error('Error updating item:',error);
+    }
+    finally{
+        console.log("some clean up required ???")
+    }
+});

@@ -60,6 +60,10 @@ class ProjectUpdate(BaseModel):
     github_url:Optional[str] = None
     image_url:Optional[str] = None
 
+class SkillUpdate(BaseModel):
+    skill_title:Optional[str] = None
+    category:Optional[str] = None
+
 @app.post("/projects",response_model=ProjectResponse)
 async def make_project( 
     title:str=Form(...),
@@ -145,6 +149,12 @@ async def make_skill(
     print(f"Skill inserted : {skill}")
     return skill
 
+@app.get("/skill/{skill_id}",response_model=SkillResponse)
+async def get_project(skill_id:int,db:AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Skill).where(Skill.id == skill_id))
+    skill = result.scalar_one_or_none()
+    return skill
+
 # partial updates
 @app.patch("/project/{project_id}",response_model=ProjectResponse)
 async def partial_project_update(
@@ -172,3 +182,30 @@ async def partial_project_update(
     if not updated_project:
         raise HTTPException(status_code=404, detail="Project not found")
     return updated_project
+
+@app.patch("/skill/{skill_id}",response_model=SkillResponse)
+async def partial_skill_update(
+    skill_id:int,
+    skill_update:SkillUpdate,
+    db : AsyncSession = Depends(get_db)
+):
+    skill_update_data = skill_update.dict(exclude_unset=True)
+
+    if not skill_update_data:
+        raise HTTPException(status_code=400,detail="No fields to update")
+    
+    stmt = (
+        update(Skill)
+        .where(Skill.id == skill_id)
+        .values(**skill_update_data)
+        .returning(Skill)
+    )
+    
+    result = await db.execute(stmt)
+    await db.commit()
+
+    updated_skill = result.scalar_one_or_none()
+
+    if not updated_skill:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return updated_skill
