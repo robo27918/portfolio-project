@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from sqlalchemy import insert,select
+from sqlalchemy import insert,select,update,delete
 from typing import List
+from typing import Optional
 
 
 from app.data import(
@@ -50,6 +51,14 @@ class SkillResponse(BaseModel):
     category:str|None
     class Config:
         form_attributes = True
+
+class ProjectUpdate(BaseModel):
+    title:Optional[str] = None
+    description:Optional[str] = None
+    technologies:Optional[str] = None
+    url:Optional[str] = None
+    github_url:Optional[str] = None
+    image_url:Optional[str] = None
 
 @app.post("/projects",response_model=ProjectResponse)
 async def make_project( 
@@ -128,4 +137,31 @@ async def make_skill(
     skill = result.first()[0]
     print(f"Skill inserted : {skill}")
     return skill
+
+# partial updates
+@app.patch("/projects/{project_id}",response_model=ProjectResponse)
+async def partial_project_update(
+    project_id:int,
+    project_update,
+    db : AsyncSession = Depends(get_db)
+):
+    project_update_data = project_update.dict(exclude_unset=True)
+
+    if not project_update_data:
+        raise HTTPException(status_code=400,detail="No fields to update")
     
+    stmt = (
+        update(Project)
+        .where(Project.id == project_id)
+        .values(**project_update_data)
+        .returning(Project)
+    )
+    
+    result = await db.execute(stmt)
+    await db.commit()
+
+    updated_project = result.scalar_one_or_none()
+
+    if not updated_project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return updated_project

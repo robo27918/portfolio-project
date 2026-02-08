@@ -111,38 +111,55 @@ function loadProject(response){
 
 document.addEventListener("DOMContentLoaded",function(){
     skill_table.addEventListener('click', async function(e){
-        const tableRow = e.target.closest(".skill-row");
-        console.log(tableRow,"hey hey ")
-        // find a way to get the skill-id from the tableRow
-        if (tableRow){
-            //find a a way to get the skill id
-            console.log(tableRow.children)
-            let targetId = tableRow.children[0].textContent
-            if(confirm(`Delete ${targetId}?`)){
-                console.log('deleted ....')
-                // hit the delete api point for deleting skill
-                deleteSkill(targetId)
+        const target = e.target;
+        if (target.classList.contains("delete-btn")){
+
+            const tableRow = e.target.closest(".skill-row");
+             // find a way to get the skill-id from the tableRow
+            if (tableRow){
+                //find a a way to get the skill id
+                console.log(tableRow.children)
+                let targetId = tableRow.children[0].textContent
+                if(confirm(`Delete ${targetId}?`)){
+                    console.log('deleted ....')
+                    // hit the delete api point for deleting skill
+                    deleteSkill(targetId)
+                }
             }
+
         }
+        else if(target.classList.contains("edit-btn")){
+            alert("clicked edit button")
+        }
+      
     })
 })
 document.addEventListener("DOMContentLoaded",function(){
     project_table.addEventListener('click', async function(e){
-        console.log("clicked delete button for project")
+        
+        const target = e.target;
+
+        if(target.classList.contains("delete-btn")){
         const tableRow = e.target.closest(".project-row");
-        console.log(tableRow, "yoooooooo")
+     
         // find a way to get the skill-id from the tableRow
-        if (tableRow){
-            //find a a way to get the skill id
-            console.log(tableRow.children)
-            let targetId = tableRow.children[0].textContent
-            console.log(targetId)
-            if(confirm(`Delete ${targetId}?`)){
-                console.log('deleted ....')
-                // hit the delete api point for deleting skill
-                deleteProject(targetId)
-            }
+            if (tableRow){
+                //find a a way to get the skill id
+        
+                let targetId = tableRow.children[0].textContent
+                
+                if(confirm(`Delete ${targetId}?`)){
+                    console.log('deleted ....')
+                    // hit the delete api point for deleting skill
+                    deleteProject(targetId)
+                }
+            }    
         }
+        else if(target.classList.contains("edit-btn")){
+            console.log("clicked edit button")
+            alert("clicked edit")
+        }
+        
     })
 })
 // delete method for deleting skill by id
