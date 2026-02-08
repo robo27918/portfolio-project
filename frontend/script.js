@@ -81,6 +81,7 @@ function loadSkill(response){
 function loadProject(response){
     console.log(response)
     table_row = document.createElement("tr")
+    table_row.className = "project-row"
     table_row.id = `del-btn-${response.id}`
     id_data = document.createElement("td")
     title_data = document.createElement("td")
@@ -111,7 +112,7 @@ function loadProject(response){
 document.addEventListener("DOMContentLoaded",function(){
     skill_table.addEventListener('click', async function(e){
         const tableRow = e.target.closest(".skill-row");
-        console.log(tableRow)
+        console.log(tableRow,"hey hey ")
         // find a way to get the skill-id from the tableRow
         if (tableRow){
             //find a a way to get the skill id
@@ -121,6 +122,25 @@ document.addEventListener("DOMContentLoaded",function(){
                 console.log('deleted ....')
                 // hit the delete api point for deleting skill
                 deleteSkill(targetId)
+            }
+        }
+    })
+})
+document.addEventListener("DOMContentLoaded",function(){
+    project_table.addEventListener('click', async function(e){
+        console.log("clicked delete button for project")
+        const tableRow = e.target.closest(".project-row");
+        console.log(tableRow, "yoooooooo")
+        // find a way to get the skill-id from the tableRow
+        if (tableRow){
+            //find a a way to get the skill id
+            console.log(tableRow.children)
+            let targetId = tableRow.children[0].textContent
+            console.log(targetId)
+            if(confirm(`Delete ${targetId}?`)){
+                console.log('deleted ....')
+                // hit the delete api point for deleting skill
+                deleteProject(targetId)
             }
         }
     })
@@ -139,5 +159,22 @@ async function deleteSkill(skillId){
     }
     catch(error){
         console.error("Skill Delete failed", skillId);
+    }
+}
+
+async function deleteProject(projectId){
+
+    try{
+        const response = await fetch(`http://localhost:8000/projects/${projectId}`,
+            {method : "DELETE"
+
+            });
+        if (response.ok){
+            console.log('Deleted project:',projectId);
+
+        }
+    }
+    catch(error){
+        console.error("Project Delete failed", projectId);
     }
 }
