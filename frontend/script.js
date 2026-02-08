@@ -1,6 +1,12 @@
 const API_URL ="http://localhost:8000"
 const skill_table = document.getElementById("skill-table-body")
 const project_table = document.getElementById("project-table-body")
+
+// initialize bootstrap modal
+const editModalElement = document.getElementById("editModal");
+const editModal = new bootstrap.Modal(editModalElement);
+const editForm = document.getElementById("editForm");
+
 async function loadSkills(){
     console.log("call to load skills method")
     try{
@@ -82,7 +88,7 @@ function loadProject(response){
     console.log(response)
     table_row = document.createElement("tr")
     table_row.className = "project-row"
-    table_row.id = `del-btn-${response.id}`
+    table_row.id = `${response.id}`
     id_data = document.createElement("td")
     title_data = document.createElement("td")
     description_data = document.createElement("td")
@@ -129,7 +135,13 @@ document.addEventListener("DOMContentLoaded",function(){
 
         }
         else if(target.classList.contains("edit-btn")){
-            alert("clicked edit button")
+            const editBtn = e.target.closest("edit-btn");
+            if(editBtn){
+                // const projectId = editBtn.dataset.id;
+                // console.log("projectId for editing is", projectId)
+                // openEditModal(projectId);
+            }
+         
         }
       
     })
@@ -156,8 +168,14 @@ document.addEventListener("DOMContentLoaded",function(){
             }    
         }
         else if(target.classList.contains("edit-btn")){
+            const tableRow = e.target.closest(".project-row");
             console.log("clicked edit button")
-            alert("clicked edit")
+
+            if (tableRow){
+                const targetId = tableRow.children[0].textContent;
+                console.log("PROJECT_ID",targetId);
+                openEditModal(targetId)
+            }
         }
         
     })
@@ -195,3 +213,52 @@ async function deleteProject(projectId){
         console.error("Project Delete failed", projectId);
     }
 }
+
+// open edit modal with item data
+async function openEditModal(projectId){
+    try{
+        const response = await fetch(`http://localhost:8000/project/${projectId}`);
+        const project =  await response.json();
+        console.log("project from openEditModal", project)
+        document.getElementById("editProjectId").value = project.id;
+        document.getElementById("editTitle").value = project.title;
+        editModal.show()
+    }
+    catch(error){
+        console.error("Error handling item",error);
+
+    }
+}
+// Handle form Submission (PATCH request)
+editForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    const projectId = document.getElementById("editProjectId").value;
+
+    const formData = {
+        title : document.getElementById('editTitle').value,
+    };
+    console.log("form-data",formData);
+    try{
+        const response = await fetch(`${API_URL}/project/${projectId}`,{
+            method: 'PATCH',
+            headers:{
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok){
+            editModal.hide();
+        }
+        else{
+            const error = await response.json();
+            console.log("Error",error);
+        }
+    }catch(error){
+        console.error('Error updating item:',error);
+    }
+    finally{
+        console.log("some clean up required ???")
+    }
+})

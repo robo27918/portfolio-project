@@ -7,5 +7,12 @@
     x add edit endpoint via FastAPI
     x add event delegation logic to seperate delete and edit button
     - create a modal to enter new data upon clicking edit
-[] add data from API endpoints to index.html
+[x] add data from API endpoints to index.html
     - hit endpoints via index.js and upload dynamically 
+
+2/8/2025
+
+[]  Implement edit functionality for projects and skills
+    x add edit endpoint via FastAPI
+    x add event delegation logic to seperate delete and edit button
+    - create a modal to enter new data upon clicking edit

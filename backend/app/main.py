@@ -44,13 +44,13 @@ class ProjectResponse(BaseModel):
     image_url:str|None
     
     class Config:
-        form_attributes = True
+        from_attributes = True
 class SkillResponse(BaseModel):
     id:int
     skill_title:str
     category:str|None
     class Config:
-        form_attributes = True
+        from_attributes = True
 
 class ProjectUpdate(BaseModel):
     title:Optional[str] = None
@@ -119,6 +119,13 @@ async def get_projects(skip:int =0, limit : int =10,
     results = await db.execute(select(Project).offset(skip).limit(limit))
     projects = results.scalars().all()
     return projects
+
+@app.get("/project/{project_id}",response_model=ProjectResponse)
+async def get_project(project_id:int,db:AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Project).where(Project.id == project_id))
+    project = result.scalar_one_or_none()
+    return project
+
 @app.post("/skills",response_model=SkillResponse)
 async def make_skill(
 
@@ -139,10 +146,10 @@ async def make_skill(
     return skill
 
 # partial updates
-@app.patch("/projects/{project_id}",response_model=ProjectResponse)
+@app.patch("/project/{project_id}",response_model=ProjectResponse)
 async def partial_project_update(
     project_id:int,
-    project_update,
+    project_update:ProjectUpdate,
     db : AsyncSession = Depends(get_db)
 ):
     project_update_data = project_update.dict(exclude_unset=True)
