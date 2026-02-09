@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8000"
+
+const API_URL="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com"
 // getting necessary DOM elements
 const project_list = document.getElementById("projects")
 const skill_list = document.getElementById("skills")
