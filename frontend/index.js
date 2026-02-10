@@ -1,13 +1,10 @@
 
 const API_URL="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com"
 // getting necessary DOM elements
-const projects = document.getElementById("project-container");
+const projects = document.getElementById("project-display-area");
 const skills = document.getElementById("skill-display-area");
 const projectTemplate = document.getElementById("project-template");
 const skillTemplate = document.getElementById("skill-template");
-
-
-// Modal controls
 
 async function loadAllSkills(){
     console.log("call to load skills method")
@@ -64,9 +61,12 @@ async function loadAllProjects(project){
 }
 
 function loadProject(project){
-    console.log(project)
-    project_list_item = document.createElement("li");
-    project_list_item.textContent = `$ ${project.id} | ${project.title} | ${project.description} | ${project.url} | ${project.technologies}`
-    projects.appendChild(project_list_item);
+    console.log("call to loadProject")
+    const node = projectTemplate.content.cloneNode(true);
+    node.querySelector(".card-img-top").src = `${'https://www.paramountshop.com/cdn/shop/files/spongebob-squarepants-life-sized-cardboard-cutout-standee-946804_1445x.jpg?v=1718292085'}`;
+    node.querySelector(".card-title").textContent = project.title;
+    node.querySelector(".card-text").textContent = project.description;
+    node.querySelector(".btn").textContent = 'fake-url.com';
+    projects.appendChild(node);
 }
 loadAllProjects()

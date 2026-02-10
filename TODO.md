@@ -29,7 +29,12 @@
     - make webpage more modern but minimalist 
 
 2/10/2025
-[] Make index.html more presentable 
+[x] Make index.html more presentable 
     [x] add html templates for skill pill
     [x] add html template for  project card
-    [] add content to templates via index.js
+    [x] add content to templates via index.js
+
+[] fix issue with admin form
+    [] submitting yields localhost issue ?
+
+[] Make admin.html more presentable

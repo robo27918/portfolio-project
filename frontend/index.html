@@ -72,25 +72,28 @@
 
     <!-- project section -->
      <section id="projects" class="py-5 bg-light">
-        <div id="project-container" class="container">
+        <div class="container">
             <h2 class="text-center mb-5 fw-light">
                 Projects
             </h2>
             <div id="project-holder" class="row g-4">
-                <template id="project-template">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <img src="" alt="" class="card-img-top" alt="Project">
-                            <div class="card-body">
-                                <h5 class="card-title"></h5>
-                                <p class="card-text text-muted"></p>
+                
+                    <div id="project-display-area" class="col-md-6 col-lg-4">
+                        <template id="project-template">
+                            
+                            <div class="card border-0 shadow-sm h-100">
+                                <img  src="" alt="" class="card-img-top" alt="Project">
+                                <div class="card-body">
+                                    <h5 class="card-title"></h5>
+                                    <p class="card-text text-muted"></p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <a href="" class="btn btn-sm btn-outline-dark">Github</a>
+                                </div>
                             </div>
-                            <div class="card-footer bg-white border-0">
-                                <a href="" class="btn btn-sm btn-outline-dark">Github</a>
-                            </div>
-                        </div>
+                        </template>
                     </div>
-                </template>
+                
             </div>
         </div>
      </section>
