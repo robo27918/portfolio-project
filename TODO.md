@@ -30,6 +30,5 @@
 
 2/10/2025
 [] Make index.html more presentable 
-    - use bootstrap card to hold project data
-    - figure out bootstap element to hold skils data
-    - make webpage more modern but minimalist 
+    [] add html templates for skill pill
+    [] add html template for  project card
