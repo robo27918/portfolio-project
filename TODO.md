@@ -30,5 +30,6 @@
 
 2/10/2025
 [] Make index.html more presentable 
-    [] add html templates for skill pill
-    [] add html template for  project card
+    [x] add html templates for skill pill
+    [x] add html template for  project card
+    [] add content to templates via index.js

@@ -1,18 +1,21 @@
 
 const API_URL="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com"
 // getting necessary DOM elements
-const project_list = document.getElementById("projects")
-const skill_list = document.getElementById("skills")
+const projects = document.getElementById("project-container");
+const skills = document.getElementById("skill-display-area");
+const projectTemplate = document.getElementById("project-template");
+const skillTemplate = document.getElementById("skill-template");
+
 
 // Modal controls
 
 async function loadAllSkills(){
     console.log("call to load skills method")
     try{
-        const response = await fetch(`${API_URL}/skills`)
+        const response = await fetch(`${API_URL}/skills`);
 
         if (!response.ok){
-            throw new Error(`HTTP error! status:${response.status}`)
+            throw new Error(`HTTP error! status:${response.status}`);
         }
         const skills = await response.json();
         console.log(skills)
@@ -32,10 +35,9 @@ async function loadAllSkills(){
 
 function loadSkill(skill){
     console.log(skill)
-    skill_list_item = document.createElement("li");
-    skill_list_item.textContent = `$ ${skill.id} | ${skill.skill_title} | ${skill.category}`
-    skills.appendChild(skill_list_item);
-
+    const node = skillTemplate.content.cloneNode(true);
+    node.querySelector("span").textContent = skill.skill_title;
+    skills.appendChild(node);
 }
 loadAllSkills()
 
@@ -51,7 +53,6 @@ async function loadAllProjects(project){
         for(let i = 0; i < projects.length; i++){
             loadProject(projects[i])
         }
-
     }
     catch(e){
         console.log(e.message)
