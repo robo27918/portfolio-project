@@ -1,4 +1,4 @@
-const API_URL ="http://localhost:8000"
+const API_URL="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com"
 const skill_table = document.getElementById("skill-table-body")
 const project_table = document.getElementById("project-table-body")
 
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded",function(){
 // delete method for deleting skill by id
 async function deleteSkill(skillId){
     try{
-        const response = await fetch(`http://localhost:8000/skills/${skillId}`,
+        const response = await fetch(`${AP_URL}/${skillId}`,
             {method : "DELETE"
 
             });
@@ -205,7 +205,7 @@ async function deleteSkill(skillId){
 async function deleteProject(projectId){
 
     try{
-        const response = await fetch(`http://localhost:8000/projects/${projectId}`,
+        const response = await fetch(`${API_URL}/${projectId}`,
             {method : "DELETE"
 
             });
@@ -222,7 +222,7 @@ async function deleteProject(projectId){
 // open edit modal with item data
 async function openEditProjectModal(projectId){
     try{
-        const response = await fetch(`http://localhost:8000/project/${projectId}`);
+        const response = await fetch(`${API_URL}/project/${projectId}`);
         const project =  await response.json();
         console.log("project from openEditModal", project)
         document.getElementById("editProjectId").value = project.id;
@@ -270,7 +270,7 @@ editProjectForm.addEventListener("submit", async (e)=>{
 
 async function openEditSkillModal(skillId){
     try{
-        const response = await fetch(`http://localhost:8000/skill/${skillId}`);
+        const response = await fetch(`${API_URL}/skill/${skillId}`);
         const skill =  await response.json();
         console.log("skill from openEditModal", skill)
         // console.log(`${skill.id} |||| ${skill.skill_title}`, )
