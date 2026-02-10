@@ -22,7 +22,6 @@ async function loadAllSkills(){
 
     }
     catch(e){
-        console.log("some kinda error")
         console.log(e.message)
         
     }
@@ -55,7 +54,6 @@ async function loadAllProjects(project){
 
     }
     catch(e){
-        console.log("some kinda error")
         console.log(e.message)
         
     }

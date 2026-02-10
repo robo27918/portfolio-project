@@ -20,4 +20,16 @@
     [x] add other columns for patch update for projects to the modal
     [x] create modal for skills
     [x] 
-[x] Load backend to AWS Fargate 
+[x] Load backend to AWS Fargate
+
+2/9/2025
+[] Make index.html more presentable 
+    - use bootstrap card to hold project data
+    - figure out bootstap element to hold skils data
+    - make webpage more modern but minimalist 
+
+2/10/2025
+[] Make index.html more presentable 
+    - use bootstrap card to hold project data
+    - figure out bootstap element to hold skils data
+    - make webpage more modern but minimalist 
