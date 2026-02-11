@@ -38,5 +38,6 @@
     [x] submitting yields localhost issue ?
 
 2/11/2025
-[] create event listeners for submitting project and skill in json
+[x] create event listeners for submitting project and skill in json
+[] fix issue with project section of index.html
 [] Make admin.html more presentable
