@@ -7,7 +7,10 @@ from sqlalchemy import insert,select,update,delete
 from typing import List
 from typing import Optional
 from mangum import Mangum
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 from app.data import(
     get_db,
     init_db,
@@ -64,24 +67,28 @@ class SkillUpdate(BaseModel):
     skill_title:Optional[str] = None
     category:Optional[str] = None
 
+class ProjectCreate(BaseModel):
+    title:str
+    description:str
+    technologies:str|None = None
+    url:str|None = None
+    github_url:str|None = None
+    image_url: str|None = None
+
+class SkillCreate(BaseModel):
+    skill_title:str
+    category:str|None = None
+
 @app.post("/projects",response_model=ProjectResponse)
 async def make_project( 
-    title:str=Form(...),
-    description:str = Form(...),
-    technologies:str = Form(None),
-    url:str = Form(None),
-    github_url = Form(None),
-    image_url = Form(None),
+    project:ProjectCreate,
     db:AsyncSession= Depends(get_db)):
     
-    print("made call to post method")
+    logger.info("Creating project")
+    logger.info(f"Payload: {project}")
+
     stmt = insert(Project).values(
-        title = title,
-        description= description,
-        technologies = technologies,
-        url = url,
-        github_url = github_url,
-        image_url = image_url,
+        **project.dict()
     ).returning(Project)
 
     result = await db.execute(stmt)
@@ -132,16 +139,15 @@ async def get_project(project_id:int,db:AsyncSession = Depends(get_db)):
 
 @app.post("/skills",response_model=SkillResponse)
 async def make_skill(
-
-    skill_title:str=Form(...),
-    category:str = Form(...),
+    skill:SkillCreate,
     db:AsyncSession= Depends(get_db)):
 
-    print(skill_title)
-    stmt = insert(Skill).values(
-        skill_title = skill_title,
-        category = category
-    ).returning(Skill)
+    logger.info("Creating a skill")
+    logger.info(f"Payload: {skill}")
+    stmt = (insert(Skill)
+            .values(**skill.dict())
+            .returning(Skill)
+    )
     result = await db.execute(stmt)
     await db.commit()
 

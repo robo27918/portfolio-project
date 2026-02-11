@@ -10,9 +10,9 @@
 <body>
     <h1>Admin Panel</h1>
 
-    <div class="container">
+     <div class="container">
         <h3>Add Project</h3>
-        <form action="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com" method="post">
+        <form action="https://6lfcyxhtkb.execute-api.us-east-1.amazonaws.com/projects" method="post">
             <div class="input-container">
                 <label class="column" for="">Project title</label>
                 <input class="column" id="title" name="title" type="text">
@@ -28,8 +28,21 @@
             </div>
             <button type="submit">Submit</button>
         </form>
+    </div> 
+   <!-- <div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm rounded-4">
+                <div class="mb-4 fw-semibold">
+
+                    <form action=""></form>
+                </div>
+            </div>
+
+        </div>
     </div>
-    
+   </div>  -->
+
     <div class="container">
         <h3>Add skill</h3>
         <form action="http://localhost:8000/skills" method="post">
