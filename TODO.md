@@ -34,7 +34,9 @@
     [x] add html template for  project card
     [x] add content to templates via index.js
 
-[] fix issue with admin form
-    [] submitting yields localhost issue ?
+[x] fix issue with admin form
+    [x] submitting yields localhost issue ?
 
+2/11/2025
+[] create event listeners for submitting project and skill in json
 [] Make admin.html more presentable

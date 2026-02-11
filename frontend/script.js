@@ -316,3 +316,62 @@ editSkillForm.addEventListener("submit", async (e)=>{
         console.log("some clean up required ???")
     }
 });
+
+document.getElementById("projectForm")
+        .addEventListener("submit", async (e)=>{
+            e.preventDefault();
+
+            const form = e.target;
+            const data = Object.fromEntries( new FormData(form))
+            try{
+
+                const response = await fetch(`${API_URL}/projects`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type": "application/json"
+                        }   ,
+                    body: JSON.stringify(data)
+                     });
+                
+                if (!response.ok){
+                    const error =   await response.json();
+                    console.log(error)
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+            finally{
+                console.log("all done.....")
+            }
+        });
+
+document.getElementById("skillForm")
+        .addEventListener("submit", async (e)=>{
+            e.preventDefault();
+            console.log("submitted new skill")
+            const form = e.target;
+            const data = Object.fromEntries( new FormData(form))
+            try{
+
+                response = await fetch(`${API_URL}/skills`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type": "application/json"
+                        },
+                    body: JSON.stringify(data)
+                });
+                
+                if(!response.ok){
+                    const error = await response.json()
+                    console.log(error);
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+            finally{
+                console.log("all done..")
+            }
+            
+        });
