@@ -41,4 +41,9 @@
 [x] create event listeners for submitting project and skill in json
 [x] fix issue with project section of index.html
 [] Make admin.html more presentable
-
+    [] make skill form modern
+    [] add Toast for success and failure
+2/12/2026
+[] Make admin.html more presentable
+    [] make skill form modern
+    [] add Toast for success and failure

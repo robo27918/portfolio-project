@@ -11,7 +11,9 @@ const editSkillModalElement = document.getElementById("editSkillModal");
 const editSkillModal = new bootstrap.Modal(editSkillModalElement);
 const editSkillForm = document.getElementById("editSkillForm");
 
-
+//initialize Toast object
+const toastElement  = document.getElementById("liveToast");
+const toast = new  bootstrap.Toast(toastElement) 
 async function loadSkills(){
     console.log("call to load skills method")
     try{
@@ -385,3 +387,17 @@ document.getElementById("skillForm")
             }
             
         });
+function showToast(message,type='Success'){
+   const toastMessage =document.getElementById("toastMessage");
+
+   toastElement.classList.remove("text-bg-success","text-bg-danger");
+
+   if(type ==="error"){
+    toastElement.classList.add("text-bg-danger");
+   }
+   else{
+    toastElement.classList.add("text-bg-sucess");
+   }
+   toastMessage.textContent = message;
+   toast.show()
+}
