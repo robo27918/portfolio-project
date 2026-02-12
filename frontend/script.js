@@ -190,13 +190,18 @@ document.addEventListener("DOMContentLoaded",function(){
 // delete method for deleting skill by id
 async function deleteSkill(skillId){
     try{
-        const response = await fetch(`${AP_URL}/${skillId}`,
+        console.log("DELETING SKILL",skillId);
+        const response = await fetch(`${API_URL}/skills/${skillId}`,
             {method : "DELETE"
 
             });
         if (response.ok){
             console.log('Deleted skill:',skillId);
 
+        }
+        else{
+            const error  = await response.json();
+            console.error(error)
         }
     }
     catch(error){
@@ -205,15 +210,19 @@ async function deleteSkill(skillId){
 }
 
 async function deleteProject(projectId){
-
+    
     try{
-        const response = await fetch(`${API_URL}/${projectId}`,
+        const response = await fetch(`${API_URL}/projects/${projectId}`,
             {method : "DELETE"
 
             });
         if (response.ok){
             console.log('Deleted project:',projectId);
 
+        }
+        else{
+            const error = await response.json();
+            console.error(error);
         }
     }
     catch(error){

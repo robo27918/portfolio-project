@@ -46,4 +46,7 @@
 2/12/2026
 [] Make admin.html more presentable
     [] make skill form modern
-    [] add Toast for success and failure
+    [x] add Toast for success and failure
+[]Fix 404 error when deleting
+[]Fix issue where updating DB doesn't sync up with data on frontend
+    []
