@@ -316,15 +316,21 @@ editSkillForm.addEventListener("submit", async (e)=>{
         console.log("some clean up required ???")
     }
 });
-
+// test_var = document.getElementById("projectForm")
+// console.log(`****${test_var.formData()} ****`)
 document.getElementById("projectForm")
         .addEventListener("submit", async (e)=>{
             e.preventDefault();
-
+            console.log("submit clicked")
             const form = e.target;
             const data = Object.fromEntries( new FormData(form))
+            console.log("***DATA***")
+            for (let key in data){
+                console.log(`${data[key]}`)
+            }
+            console.log("***DATA***")
             try{
-
+                console.log("*****sending data****");
                 const response = await fetch(`${API_URL}/projects`,{
                     method:"POST",
                     headers:{
@@ -335,7 +341,11 @@ document.getElementById("projectForm")
                 
                 if (!response.ok){
                     const error =   await response.json();
-                    console.log(error)
+                    console.log("*** ERROR:$}***",error)
+                }
+                else{
+                const res = await response.json()
+                console.log("***CHECKING OUT RES***",res);
                 }
             }
             catch(error){

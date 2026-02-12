@@ -41,3 +41,4 @@
 [x] create event listeners for submitting project and skill in json
 [x] fix issue with project section of index.html
 [] Make admin.html more presentable
+
