@@ -39,5 +39,5 @@
 
 2/11/2025
 [x] create event listeners for submitting project and skill in json
-[] fix issue with project section of index.html
+[x] fix issue with project section of index.html
 [] Make admin.html more presentable
