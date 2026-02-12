@@ -344,10 +344,16 @@ document.getElementById("projectForm")
                 if (!response.ok){
                     const error =   await response.json();
                     console.log("*** ERROR:$}***",error)
+                    showToast("Failed to create NEW PROJECT","error");
+                    
                 }
                 else{
-                const res = await response.json()
-                console.log("***CHECKING OUT RES***",res);
+                    const res = await response.json()
+                    console.log("***CHECKING OUT RES***",res);
+                    showToast("Created New project","success");
+                    form.reset();
+
+                
                 }
             }
             catch(error){
@@ -377,8 +383,14 @@ document.getElementById("skillForm")
                 if(!response.ok){
                     const error = await response.json()
                     console.log(error);
+                    showToast("New project creation failed","error")
                 }
-            }
+                else{
+                    showToast("Submitted NEW proejct","success");
+                    form.reset();
+                }
+            }  
+            
             catch(error){
                 console.log(error);
             }
@@ -387,7 +399,9 @@ document.getElementById("skillForm")
             }
             
         });
+
 function showToast(message,type='Success'){
+    console.log("***CALL TO TOAST***")
    const toastMessage =document.getElementById("toastMessage");
 
    toastElement.classList.remove("text-bg-success","text-bg-danger");
@@ -399,5 +413,6 @@ function showToast(message,type='Success'){
     toastElement.classList.add("text-bg-sucess");
    }
    toastMessage.textContent = message;
+   console.log("***TOAST***",toastMessage,toastElement,toast)
    toast.show()
 }
